@@ -11,7 +11,7 @@ interface Task{
 }
 const fetcher = (url: string) => axios.get(url).then(res => res.data);
 const baseBackendUrl = "https://task-manager-backend-45b0.onrender.com/tasks"
-// const baseBackendUrl = 'http://localhost:5000/tasks'
+// const baseBackendUrl = 'http://192.168.29.187:5000/tasks'
 
 export default function Home() {
   const { data: tasks, mutate } = useSWR(baseBackendUrl, fetcher);
@@ -39,7 +39,7 @@ export default function Home() {
       ...task,
       status: task.status === 'pending' ? 'done' : 'pending',
     };
-    await axios.put(`${baseBackendUrl}/${task.id}`, updated);
+    await axios.put(`${baseBackendUrl}${task.id}`, updated);
     mutate();
   };
 
