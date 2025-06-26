@@ -1,7 +1,7 @@
 {
     "functions": {
       "api/server.js": {
-        "runtime": "nodejs18.x"
+        "runtime": "@vercel/node"
       }
     },
     "buildCommand": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
