@@ -10,16 +10,18 @@ interface Task{
   status: string;
 }
 const fetcher = (url: string) => axios.get(url).then(res => res.data);
+const baseBackendUrl = "https://task-manager-backend-45b0.onrender.com/api"
+// const baseBackendUrl = 'http://192.168.29.187:5000/tasks'
 
 export default function Home() {
-  const { data: tasks, mutate } = useSWR('http://localhost:5000/tasks', fetcher);
+  const { data: tasks, mutate } = useSWR(baseBackendUrl, fetcher);
   const titleRef = useRef<HTMLInputElement>(null);
 
   const addTask = async (e: React.FormEvent) => {
     e.preventDefault();
     const title = titleRef.current?.value;
     if (!title) return;
-    await axios.post('http://localhost:5000/tasks', { title });
+    await axios.post(baseBackendUrl, { title });
     if(titleRef.current == null){
       return;
     }
@@ -28,7 +30,7 @@ export default function Home() {
   };
 
   const deleteTask = async (id: number) => {
-    await axios.delete(`http://localhost:5000/tasks/${id}`);
+    await axios.delete(`${baseBackendUrl}/${id}`);
     mutate();
   };
 
@@ -37,7 +39,7 @@ export default function Home() {
       ...task,
       status: task.status === 'pending' ? 'done' : 'pending',
     };
-    await axios.put(`http://localhost:5000/tasks/${task.id}`, updated);
+    await axios.put(`${baseBackendUrl}${task.id}`, updated);
     mutate();
   };
 
