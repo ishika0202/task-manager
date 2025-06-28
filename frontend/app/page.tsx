@@ -10,8 +10,9 @@ interface Task{
   status: string;
 }
 const fetcher = (url: string) => axios.get(url).then(res => res.data);
-const baseBackendUrl = "https://task-manager-backend-45b0.onrender.com/api"
+// const baseBackendUrl = "https://task-manager-backend-45b0.onrender.com/api"
 // const baseBackendUrl = 'http://192.168.29.187:5000/tasks'
+const baseBackendUrl = 'https://task-manager-aukb.onrender.com/tasks'
 
 export default function Home() {
   const { data: tasks, mutate } = useSWR(baseBackendUrl, fetcher);
