@@ -45,22 +45,27 @@ router.get('/:id', async (req, res) => {
 
 // PUT update a task by ID
 router.put('/:id', async (req, res) => {
+    const { id } = req.params;
+    const { title, status } = req.body;
+
     try {
-        const { id } = req.params;
-        const { title, status } = req.body;
         const result = await pool.query(
             'UPDATE tasks SET title = $1, status = $2 WHERE id = $3 RETURNING *',
             [title, status, id]
         );
+
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Task not found' });
         }
+
         res.json(result.rows[0]);
-    } catch (err) {
-        console.error('Error updating task:', err.message);
-        res.status(500).json({ error: 'Failed to update task' });
+    } catch (error) {
+        console.error('Error updating task:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+module.exports = router;
 
 // DELETE a task by ID
 router.delete('/:id', async (req, res) => {
